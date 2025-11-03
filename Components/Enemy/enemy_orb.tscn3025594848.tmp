@@ -1,0 +1,55 @@
+[gd_scene load_steps=8 format=3 uid="uid://ccvjtcqqvv2g"]
+
+[ext_resource type="Texture2D" uid="uid://dt1nmprlysrnh" path="res://Components/Player/tiles.png" id="1_bdhrp"]
+[ext_resource type="Script" uid="uid://bj2buk7ecrtur" path="res://Components/Enemy/enemy_orb.gd" id="1_wl4l3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bdhrp"]
+size = Vector2(4, 4)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wl4l3"]
+atlas = ExtResource("1_bdhrp")
+region = Rect2(128, 160, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qcqfm"]
+atlas = ExtResource("1_bdhrp")
+region = Rect2(136, 160, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4axgt"]
+animations = [{
+"frames": [{
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_wl4l3")
+}, {
+"duration": 3.0,
+"texture": SubResource("AtlasTexture_qcqfm")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Curve" id="Curve_bdhrp"]
+_data = [Vector2(0.0305164, 1), 0.0, 0.0, 0, 0, Vector2(0.793427, 0.738126), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[node name="Enemy_orb" type="Area2D" groups=["danger"]]
+script = ExtResource("1_wl4l3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_bdhrp")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_4axgt")
+frame_progress = 0.798422
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+modulate = Color(0.537255, 0.117647, 0.168627, 0.745098)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 3.0
+angular_velocity_min = -200.0
+angular_velocity_max = 200.0
+angle_min = -193.0
+angle_max = 386.0
+scale_amount_curve = SubResource("Curve_bdhrp")

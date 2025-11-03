@@ -1,0 +1,46 @@
+[gd_scene load_steps=7 format=3 uid="uid://dfp1v7m6vuok4"]
+
+[ext_resource type="Texture2D" uid="uid://b7w7ejq324s4i" path="res://Components/PowerUPs/Jump/jump_orb_sprite.png" id="1_8qb2q"]
+[ext_resource type="Texture2D" uid="uid://d13kyy513x1ux" path="res://Components/PowerUPs/Jump/jump_particle.png" id="2_fystc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hkfi8"]
+size = Vector2(3, 3)
+
+[sub_resource type="Curve" id="Curve_evk0g"]
+_data = [Vector2(0.0082530975, 0.26315773), 0.0, 0.0, 0, 0, Vector2(0.7057183, 1), -1.3438765, -1.3438765, 0, 0, Vector2(1, 0.13478804), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_mbbd7"]
+curve = SubResource("Curve_evk0g")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0qftc"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 3.0
+angle_min = -39.99999
+angle_max = 40.00001
+initial_velocity_min = -2.0
+initial_velocity_max = 2.0
+gravity = Vector3(0, -10, 0)
+scale_curve = SubResource("CurveTexture_mbbd7")
+
+[node name="JumpOrb" type="Area2D" groups=["jump_orb"]]
+texture_filter = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, -0.5)
+shape = SubResource("RectangleShape2D_hkfi8")
+
+[node name="SpeedOrbSprite" type="Sprite2D" parent="."]
+position = Vector2(-2, -2)
+texture = ExtResource("1_8qb2q")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+texture_filter = 1
+position = Vector2(-0.5137062, -0.46664238)
+texture = ExtResource("2_fystc")
+explosiveness = 0.15
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_0qftc")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

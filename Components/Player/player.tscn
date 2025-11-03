@@ -1,0 +1,236 @@
+[gd_scene load_steps=27 format=3 uid="uid://dom1fbug7ska7"]
+
+[ext_resource type="Script" uid="uid://dis8vev31agm8" path="res://Components/Player/player.gd" id="1_1xasy"]
+[ext_resource type="Texture2D" uid="uid://dt1nmprlysrnh" path="res://Components/Player/tiles.png" id="2_1xasy"]
+[ext_resource type="Texture2D" uid="uid://lpkcir7k1np5" path="res://Components/Player/HPBar.png" id="3_m62op"]
+[ext_resource type="FontFile" uid="uid://djdaqf0c3jfdi" path="res://Components/monogram.ttf" id="4_rid5b"]
+[ext_resource type="AudioStream" uid="uid://4fokno71qrky" path="res://Components/Player/Jump.wav" id="5_dcc5r"]
+[ext_resource type="AudioStream" uid="uid://b1tem4n8tvddf" path="res://Components/Player/Hit.wav" id="6_pc5nc"]
+[ext_resource type="AudioStream" uid="uid://dp8mtl7tw26u8" path="res://Components/Door/Key/key.wav" id="7_kndqg"]
+[ext_resource type="AudioStream" uid="uid://dolb7cq4pc8hv" path="res://Components/PowerUPs/Orbs.wav" id="8_lakyf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sh265"]
+size = Vector2(6, 7)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m62op"]
+size = Vector2(8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m62op"]
+atlas = ExtResource("2_1xasy")
+region = Rect2(152, 128, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rid5b"]
+atlas = ExtResource("2_1xasy")
+region = Rect2(160, 128, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1xasy"]
+atlas = ExtResource("2_1xasy")
+region = Rect2(152, 152, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7uyyc"]
+atlas = ExtResource("2_1xasy")
+region = Rect2(160, 152, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lakyf"]
+atlas = ExtResource("2_1xasy")
+region = Rect2(152, 160, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1yt0s"]
+atlas = ExtResource("2_1xasy")
+region = Rect2(160, 160, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dcc5r"]
+atlas = ExtResource("2_1xasy")
+region = Rect2(152, 144, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pc5nc"]
+atlas = ExtResource("2_1xasy")
+region = Rect2(160, 144, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kndqg"]
+atlas = ExtResource("2_1xasy")
+region = Rect2(168, 144, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7iwu5"]
+animations = [{
+"frames": [{
+"duration": 4.0,
+"texture": SubResource("AtlasTexture_m62op")
+}, {
+"duration": 10.0,
+"texture": SubResource("AtlasTexture_rid5b")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1xasy")
+}, {
+"duration": 2000.0,
+"texture": SubResource("AtlasTexture_7uyyc")
+}],
+"loop": true,
+"name": &"jump_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lakyf")
+}, {
+"duration": 2000.0,
+"texture": SubResource("AtlasTexture_1yt0s")
+}],
+"loop": true,
+"name": &"jump_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dcc5r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pc5nc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kndqg")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}]
+
+[sub_resource type="Curve" id="Curve_m62op"]
+_data = [Vector2(0.0011148304, 0.6354307), 0.0, 0.0, 0, 0, Vector2(0.5696767, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="LabelSettings" id="LabelSettings_7uyyc"]
+font = ExtResource("4_rid5b")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_rid5b"]
+viewport_path = NodePath("HPparticles")
+
+[sub_resource type="Curve" id="Curve_7uyyc"]
+_data = [Vector2(0.0016207546, 0), 0.0, 0.0, 0, 0, Vector2(0.5871688, 0.55840886), -0.646564, -0.646564, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_dcc5r"]
+curve = SubResource("Curve_7uyyc")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_rid5b"]
+particle_flag_disable_z = true
+angle_min = 1.0728835e-05
+angle_max = 1.0728835e-05
+inherit_velocity_ratio = 0.403
+radial_velocity_min = 1.9999776
+radial_velocity_max = 2.9999776
+gravity = Vector3(0, -5, 0)
+scale_max = 1.8
+scale_curve = SubResource("CurveTexture_dcc5r")
+
+[node name="Player" type="CharacterBody2D"]
+z_index = 1
+script = ExtResource("1_1xasy")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+rotation = -0.78539705
+zoom = Vector2(2, 2)
+limit_enabled = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_sh265")
+
+[node name="Hitbox" type="Area2D" parent="." groups=["player"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+scale = Vector2(1.1, 1.1)
+shape = SubResource("RectangleShape2D_m62op")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_7iwu5")
+animation = &"jump_right"
+
+[node name="HPbar" type="TextureProgressBar" parent="."]
+offset_left = -4.0
+offset_top = -6.0
+offset_right = 4.0
+offset_bottom = -5.0
+max_value = 8.0
+value = 8.0
+texture_progress = ExtResource("3_m62op")
+
+[node name="Jump" type="CPUParticles2D" parent="."]
+modulate = Color(0.541176, 0.282353, 0.211765, 1)
+position = Vector2(0, 4)
+emitting = false
+amount = 4
+one_shot = true
+explosiveness = 1.0
+emission_shape = 3
+emission_rect_extents = Vector2(5, 1)
+direction = Vector2(0, 0)
+spread = 83.97
+gravity = Vector2(0, 40)
+angle_min = -476.2
+angle_max = 371.1
+scale_amount_curve = SubResource("Curve_m62op")
+
+[node name="Walk" type="CPUParticles2D" parent="."]
+modulate = Color(0.541176, 0.282353, 0.211765, 1)
+position = Vector2(0, 4)
+emitting = false
+amount = 4
+lifetime = 0.5
+randomness = 1.0
+emission_shape = 3
+emission_rect_extents = Vector2(3, 1)
+spread = 140.0
+gravity = Vector2(0, -10)
+initial_velocity_min = 2.0
+initial_velocity_max = 5.0
+angle_min = -476.2
+angle_max = 371.1
+scale_amount_curve = SubResource("Curve_m62op")
+
+[node name="HPparticles" type="SubViewport" parent="."]
+disable_3d = true
+transparent_bg = true
+size = Vector2i(16, 16)
+
+[node name="Damage" type="Label" parent="HPparticles"]
+modulate = Color(0.9607843, 0.33333334, 0.3647059, 1)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+text = "DMG"
+label_settings = SubResource("LabelSettings_7uyyc")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DamageTakenParticle" type="GPUParticles2D" parent="."]
+z_index = 1
+emitting = false
+amount = 1
+texture = SubResource("ViewportTexture_rid5b")
+lifetime = 1.5
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_rid5b")
+
+[node name="Jump_Sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_dcc5r")
+
+[node name="Hit_Sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_pc5nc")
+
+[node name="Key_Sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_kndqg")
+
+[node name="Orbs_Sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_lakyf")
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]

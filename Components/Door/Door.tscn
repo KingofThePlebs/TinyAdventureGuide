@@ -1,0 +1,56 @@
+[gd_scene load_steps=9 format=3 uid="uid://64g3a74fq8a"]
+
+[ext_resource type="Script" uid="uid://vmml0ay26v5j" path="res://Components/Door/doorway.gd" id="1_fhkwb"]
+[ext_resource type="Texture2D" uid="uid://di7dmeuog73gr" path="res://Components/Door/Door.png" id="1_u5cat"]
+[ext_resource type="Texture2D" uid="uid://ddjus6ul47ikc" path="res://Components/Door/DoorTimepng.png" id="3_uybke"]
+[ext_resource type="FontFile" uid="uid://djdaqf0c3jfdi" path="res://Components/monogram.ttf" id="4_3v1yy"]
+[ext_resource type="Texture2D" uid="uid://d18k5dxebjvyg" path="res://Components/Door/Key/key.png" id="5_0tv6n"]
+[ext_resource type="AudioStream" uid="uid://ct7j0yd1sdcyc" path="res://Components/Door/Door.mp3" id="6_i6ym7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fhkwb"]
+size = Vector2(6, 7)
+
+[sub_resource type="LabelSettings" id="LabelSettings_0tv6n"]
+font = ExtResource("4_3v1yy")
+
+[node name="Door" type="Area2D" groups=["door"]]
+script = ExtResource("1_fhkwb")
+
+[node name="Door" type="Sprite2D" parent="."]
+position = Vector2(0, -1)
+texture = ExtResource("1_u5cat")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_fhkwb")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+offset_left = -4.0
+offset_top = -14.0
+offset_right = 4.0
+offset_bottom = -6.0
+value = 100.0
+fill_mode = 5
+texture_progress = ExtResource("3_uybke")
+
+[node name="Info2" type="Node2D" parent="."]
+visible = false
+
+[node name="Label" type="Label" parent="Info2"]
+modulate = Color(1, 0.43, 0.43, 1)
+offset_left = -27.0
+offset_top = -21.0
+offset_right = 87.0
+offset_bottom = -8.0
+scale = Vector2(0.5, 0.5)
+text = "First, find the key"
+label_settings = SubResource("LabelSettings_0tv6n")
+
+[node name="Key" type="Sprite2D" parent="Info2"]
+position = Vector2(25, -14)
+texture = ExtResource("5_0tv6n")
+
+[node name="Door_Sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_i6ym7")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
